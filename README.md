@@ -9,29 +9,19 @@ This is the Vital City edition of the explorer (Halyard + Gascogne, Vital City p
 
 ## Embedding in an article
 
-The explorer runs in an `<iframe>` and reports its height to the host page, so the frame grows and shrinks with the content (no inner scrollbar). Paste this where you want it (works in Ghost HTML cards and most CMSes):
+The `?embed=1` view is a **compact, fixed-height search widget**: a search box plus results that scroll **inside** the box, so the article stays the same length no matter how much someone searches. Paste this into a Ghost HTML card (or any CMS that allows an iframe) — no script needed:
 
 ```html
 <iframe
   src="https://vitalcity-nyc.github.io/nyc-charter-explorer/?embed=1"
-  title="NYC Charter Explorer"
+  title="Search the New York City Charter"
   loading="lazy"
-  scrolling="no"
-  style="width:100%;height:780px;border:1px solid #dddddd;border-radius:10px"></iframe>
-<script>
-window.addEventListener('message', function (e) {
-  if (e.data && e.data.type === 'vc-charter-height' && e.data.id === 'nyc-charter-explorer') {
-    document.querySelectorAll('iframe[src*="nyc-charter-explorer"]').forEach(function (f) {
-      f.style.height = e.data.height + 'px';
-    });
-  }
-});
-</script>
+  style="width:100%;height:600px;border:1px solid #dddddd;border-radius:10px"></iframe>
 ```
 
-- The starting `height` is a fallback for before the script runs; the script then keeps the frame sized to the content.
-- In embed view the chapter sidebar, the footer and the theme/compact toggles are hidden to keep it lightweight. A **"Full screen"** button and an **"Open the full explorer"** link both open the full version (no `?embed=1`) in a new tab.
-- The full-screen version has everything: the chapter table of contents, the methodology footer, light/dark themes and the compact-density toggle.
+- Adjust `height` to taste (≈560–680px works well). The widget fills the article width and scrolls internally; it never grows the page.
+- The widget shows only the title, the search box, and the results. The chapter sidebar, filters, themes, notes/share controls and footer are kept for the full view to stay lightweight in-article.
+- A **"Full screen"** button (top-right of the widget) opens the complete explorer in a new tab — chapter index, filters, light/dark themes, highlights and notes, export, and the NotebookLM link. The full view also shows a brief banner confirming it was expanded.
 
 ## What it does
 

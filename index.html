@@ -321,24 +321,32 @@ if(new URLSearchParams(location.search).get('embed')==='1') document.documentEle
     padding-bottom:14px;border-bottom:1px solid var(--line)}
   .vc-foot .vc-wordmark{font-size:18px}
 
-  /* ---- embed mode (in an article iframe) ---- */
+  /* ---- embed mode: a compact, fixed-height in-article search widget ----
+     The host iframe has a fixed height; results scroll INSIDE the widget,
+     so the article doesn't grow. A "Full screen" button expands to the full tool. */
   .expand-only{display:none}
-  html.embed .expand-only{display:inline-flex}
-  html.embed body{background:var(--card)}
-  html.embed header{position:static;border-bottom:1px solid var(--line)}
-  html.embed #themeToggle,html.embed #densityToggle{display:none}
-  html.embed nav.toc{display:none}
-  html.embed .wrap{grid-template-columns:1fr;padding:14px 16px}
-  html.embed footer{display:none}
-  html.embed .bar{padding:12px 16px}
-  /* a slim source/expand strip shown only in embed */
   .embed-foot{display:none}
-  html.embed .embed-foot{display:flex;gap:12px;align-items:center;flex-wrap:wrap;
-    max-width:1180px;margin:0 auto;padding:0 16px 20px;font-size:12px;color:var(--faint)}
-  .expand-cta{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-weight:700;
-    font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;text-decoration:none;
-    background:var(--accent);color:var(--ask-ink);padding:7px 13px;border-radius:7px}
-  .expand-cta:hover{background:var(--accent-hover)}
+  html.embed{height:100%}
+  html.embed body{height:100%;margin:0;background:var(--card);display:flex;flex-direction:column;min-height:0}
+  html.embed .expand-only{display:inline-flex}
+  html.embed header{position:static;flex:0 0 auto;border-bottom:1px solid var(--line)}
+  html.embed .bar{padding:11px 16px 12px}
+  /* strip everything that isn't search + the expand button */
+  html.embed .askwrap,html.embed #themeToggle,html.embed #densityToggle,
+  html.embed .currency,html.embed .credit,html.embed .ask-note,html.embed .hint,
+  html.embed .filtersrow,html.embed .filters-btn,html.embed nav.toc,html.embed footer{display:none}
+  html.embed .titlerow{align-items:center}
+  html.embed h1{font-size:clamp(16px,2.6vw,20px)}
+  html.embed .kicker{margin-bottom:2px;font-size:11px}
+  html.embed .controls{margin-top:10px;gap:7px}
+  html.embed .filterbar,html.embed .annobar{margin-top:6px}
+  /* the results area is the only thing that scrolls */
+  html.embed .wrap{flex:1 1 auto;min-height:0;overflow-y:auto;display:block;
+    grid-template-columns:1fr;max-width:none;padding:12px 16px 16px}
+  html.embed main{min-width:0}
+  /* keep the Full screen button prominent (safety-orange) in the widget */
+  html.embed #expandFull{background:var(--accent);color:var(--ask-ink);border-color:var(--accent);font-weight:700}
+  html.embed #expandFull:hover{background:var(--accent-hover);border-color:var(--accent-hover);color:var(--ask-ink)}
   /* full-screen confirmation bar (shown only when expanded from an embed) */
   .fullbar{display:none;align-items:center;gap:12px;background:var(--accent);color:#050507;
     font-family:var(--sans);font-weight:700;font-size:13px;padding:9px 18px;line-height:1.3}
@@ -1276,32 +1284,20 @@ filtersBtn.addEventListener('click',()=>{
   filtersBtn.setAttribute('aria-expanded',open?'true':'false');
 });
 
-// ---- embed mode: full-screen link + auto-height to the host article ----
+// ---- embed mode: wire the "Full screen" links; confirm + clean URL on the full view ----
+// The embed is a fixed-height widget (results scroll inside), so no iframe auto-resize.
 (function(){
-  const EMBED = document.documentElement.classList.contains('embed');
-  // the expand links open the full version and flag that it was expanded from an embed
   const full = location.origin + location.pathname + '?full=1';
   ['expandFull','expandFull2'].forEach(id=>{ const a=document.getElementById(id); if(a) a.href=full; });
-  // on the full version, if we arrived via "Full screen", confirm it then clean the URL
-  if(!EMBED){
-    const params=new URLSearchParams(location.search);
-    if(params.get('full')==='1'){
-      const bar=document.getElementById('fullbar'); if(bar) bar.classList.add('on');
-      params.delete('full');
-      history.replaceState(null,'',location.pathname+(params.toString()?'?'+params:'')+(location.hash||''));
-    }
-    const fx=document.getElementById('fullbarX');
-    if(fx) fx.addEventListener('click',()=>document.getElementById('fullbar').classList.remove('on'));
-    return;
+  if(document.documentElement.classList.contains('embed')) return;
+  const params=new URLSearchParams(location.search);
+  if(params.get('full')==='1'){
+    const bar=document.getElementById('fullbar'); if(bar) bar.classList.add('on');
+    params.delete('full');
+    history.replaceState(null,'',location.pathname+(params.toString()?'?'+params:'')+(location.hash||''));
   }
-  let raf;
-  const post=()=>{ try{ parent.postMessage(
-    {type:'vc-charter-height', id:'nyc-charter-explorer', height:document.documentElement.scrollHeight}, '*'); }catch(e){} };
-  const schedule=()=>{ cancelAnimationFrame(raf); raf=requestAnimationFrame(post); };
-  window.addEventListener('load',schedule);
-  window.addEventListener('resize',schedule);
-  if(window.ResizeObserver) new ResizeObserver(schedule).observe(document.body);
-  setTimeout(schedule,300);
+  const fx=document.getElementById('fullbarX');
+  if(fx) fx.addEventListener('click',()=>document.getElementById('fullbar').classList.remove('on'));
 })();
 document.getElementById('filterbar').addEventListener('click',e=>{
   const b=e.target.closest('[data-clear]'); if(!b) return;
