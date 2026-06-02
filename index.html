@@ -332,9 +332,21 @@ if(new URLSearchParams(location.search).get('embed')==='1') document.documentEle
     font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;text-decoration:none;
     background:var(--accent);color:var(--ask-ink);padding:7px 13px;border-radius:7px}
   .expand-cta:hover{background:var(--accent-hover)}
+  /* full-screen confirmation bar (shown only when expanded from an embed) */
+  .fullbar{display:none;align-items:center;gap:12px;background:var(--accent);color:#050507;
+    font-family:var(--sans);font-weight:700;font-size:13px;padding:9px 18px;line-height:1.3}
+  .fullbar.on{display:flex}
+  .fullbar b{font-weight:900}
+  .fullbar .fx{margin-left:auto;border:none;background:none;color:#050507;font-size:20px;
+    line-height:1;cursor:pointer;padding:0 4px;opacity:.7}
+  .fullbar .fx:hover{opacity:1}
 </style>
 </head>
 <body>
+<div class="fullbar" id="fullbar" role="status">
+  <span><b>Full-screen explorer.</b> The complete tool — chapter index, light and dark themes, and all 770 sections.</span>
+  <button class="fx" id="fullbarX" aria-label="Dismiss this message" title="Dismiss">&times;</button>
+</div>
 <header>
   <div class="bar">
     <div class="titlerow">
@@ -1257,9 +1269,21 @@ filtersBtn.addEventListener('click',()=>{
 // ---- embed mode: full-screen link + auto-height to the host article ----
 (function(){
   const EMBED = document.documentElement.classList.contains('embed');
-  const full = location.origin + location.pathname; // same page, without ?embed=1
+  // the expand links open the full version and flag that it was expanded from an embed
+  const full = location.origin + location.pathname + '?full=1';
   ['expandFull','expandFull2'].forEach(id=>{ const a=document.getElementById(id); if(a) a.href=full; });
-  if(!EMBED) return;
+  // on the full version, if we arrived via "Full screen", confirm it then clean the URL
+  if(!EMBED){
+    const params=new URLSearchParams(location.search);
+    if(params.get('full')==='1'){
+      const bar=document.getElementById('fullbar'); if(bar) bar.classList.add('on');
+      params.delete('full');
+      history.replaceState(null,'',location.pathname+(params.toString()?'?'+params:'')+(location.hash||''));
+    }
+    const fx=document.getElementById('fullbarX');
+    if(fx) fx.addEventListener('click',()=>document.getElementById('fullbar').classList.remove('on'));
+    return;
+  }
   let raf;
   const post=()=>{ try{ parent.postMessage(
     {type:'vc-charter-height', id:'nyc-charter-explorer', height:document.documentElement.scrollHeight}, '*'); }catch(e){} };
