@@ -81,9 +81,13 @@ if(new URLSearchParams(location.search).get('embed')==='1') document.documentEle
   .ask:active{transform:translateY(1px)}
   .ask{font-size:14px;font-weight:600}
   .ask-sub{font-size:10.5px;font-weight:400;opacity:.85;letter-spacing:.01em}
-  .ask-note{flex-basis:100%;text-align:right;font-size:11.5px;color:var(--faint);margin-top:4px;max-width:50ch;margin-left:auto;line-height:1.4}
-  @media (max-width:560px){.ask{margin-left:0;margin-top:8px;align-items:flex-start}
-    .ask-note{text-align:left;margin-left:0}}
+  /* Ask button + its caveat as a tight right-aligned column */
+  .askwrap{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+  .ask-note{font-size:11.5px;color:var(--faint);line-height:1.4;max-width:30ch;text-align:right}
+  @media (max-width:560px){
+    .ask{margin-left:0;margin-top:8px;align-items:flex-start}
+    .askwrap{align-items:flex-start;width:100%}
+    .ask-note{text-align:left}}
   .controls{display:flex;flex-direction:column;gap:10px;margin-top:12px}
   .searchrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
   .filtersrow{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
@@ -358,12 +362,14 @@ if(new URLSearchParams(location.search).get('embed')==='1') document.documentEle
         <a class="ubtn expand-only" id="expandFull" target="_blank" rel="noopener" title="Open the full-screen version in a new tab">Full screen &#8599;</a>
         <button class="ubtn" id="densityToggle" title="Toggle a denser layout" aria-pressed="false">Compact</button>
         <button class="ubtn" id="themeToggle" title="Switch light / dark / auto theme">Theme: auto</button>
-        <a class="ask" href="https://notebooklm.google.com/notebook/c7286ff7-1768-4d9f-adae-38ba206388d9" target="_blank" rel="noopener">
-          Ask the Charter a question
-          <span class="ask-sub">plain-language Q&amp;A in NotebookLM &rarr;</span>
-        </a>
+        <div class="askwrap">
+          <a class="ask" href="https://notebooklm.google.com/notebook/c7286ff7-1768-4d9f-adae-38ba206388d9" target="_blank" rel="noopener">
+            Ask the Charter a question
+            <span class="ask-sub">plain-language Q&amp;A in NotebookLM &rarr;</span>
+          </a>
+          <span class="ask-note">Note: the NotebookLM notebook is updated manually, so it may lag the latest amendments — this page is the up-to-date source.</span>
+        </div>
       </div>
-      <span class="ask-note">Note: the NotebookLM notebook is updated manually, so it may lag the latest amendments — this page is the up-to-date source.</span>
     </div>
     <div class="controls">
       <div class="searchrow">
