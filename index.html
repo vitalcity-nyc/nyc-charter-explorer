@@ -73,6 +73,9 @@ if(new URLSearchParams(location.search).get('embed')==='1') document.documentEle
   h1 .kicker{display:block;font-weight:700;font-size:12px;letter-spacing:.09em;text-transform:uppercase;
     color:var(--accent);margin-bottom:5px}
   .currency{font-size:12px;color:var(--faint)}
+  .credit{font-size:11.5px;color:var(--faint);line-height:1.4;max-width:62ch;margin-top:2px}
+  .credit a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-soft)}
+  .credit a:hover{border-bottom-color:var(--accent)}
   .ask{margin-left:auto;display:inline-flex;flex-direction:column;align-items:flex-end;gap:0;
     text-decoration:none;background:var(--accent);color:#fff;padding:7px 14px;border-radius:8px;
     line-height:1.2;box-shadow:0 1px 2px rgba(0,0,0,.12);transition:background .15s,transform .05s}
@@ -357,6 +360,7 @@ if(new URLSearchParams(location.search).get('embed')==='1') document.documentEle
       <div class="titlewrap">
         <h1><span class="kicker">Search it yourself</span>Charter of the City of New York</h1>
         <span class="currency" id="currency"></span>
+        <span class="credit">Made possible by <a href="https://github.com/BetaNYC/nyc-charter-laws-rules" target="_blank" rel="noopener">BetaNYC&rsquo;s nyc-charter-laws-rules</a>, which makes the Charter machine-readable.</span>
       </div>
       <div class="util">
         <a class="ubtn expand-only" id="expandFull" target="_blank" rel="noopener" title="Open the full-screen version in a new tab">Full screen &#8599;</a>
