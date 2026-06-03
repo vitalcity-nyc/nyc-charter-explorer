@@ -331,13 +331,17 @@ if(new URLSearchParams(location.search).get('embed')==='1') document.documentEle
   html.embed .expand-only{display:inline-flex}
   html.embed header{position:static;flex:0 0 auto;border-bottom:1px solid var(--line)}
   html.embed .bar{padding:11px 16px 12px}
-  /* strip everything that isn't search + the expand button */
-  html.embed .askwrap,html.embed #themeToggle,html.embed #densityToggle,
+  /* strip everything that isn't search + the Ask button + the expand button */
+  html.embed #themeToggle,html.embed #densityToggle,
   html.embed .currency,html.embed .credit,html.embed .ask-note,html.embed .hint,
   html.embed .filtersrow,html.embed .filters-btn,html.embed nav.toc,html.embed footer{display:none}
   html.embed .titlerow{align-items:center}
   html.embed h1{font-size:clamp(16px,2.6vw,20px)}
   html.embed .kicker{margin-bottom:2px;font-size:11px}
+  /* keep the NotebookLM "Ask" button, compact (single line, no caveat) */
+  html.embed .askwrap{display:flex}
+  html.embed .ask{padding:7px 12px;font-size:12.5px;box-shadow:none}
+  html.embed .ask .ask-sub{display:none}
   html.embed .controls{margin-top:10px;gap:7px}
   html.embed .filterbar,html.embed .annobar{margin-top:6px}
   /* the results area is the only thing that scrolls */
