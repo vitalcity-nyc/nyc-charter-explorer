@@ -9,17 +9,21 @@ This is the Vital City edition of the explorer (Halyard + Gascogne, Vital City p
 
 ## Embedding in an article
 
-The `?embed=1` view is a **compact, fixed-height search widget**: a search box plus results that scroll **inside** the box, so the article stays the same length no matter how much someone searches. Paste this into a Ghost HTML card (or any CMS that allows an iframe) — no script needed:
+The `?embed=1` view is a **compact, fixed-height search widget**: a search box plus results that scroll **inside** the box, so the article stays the same length no matter how much someone searches. Paste this into a Ghost HTML card (or any CMS that allows an iframe) — no script needed.
+
+Use the wrapper version below: the fixed height lives on the outer `<div>` and the iframe fills it absolutely, so a theme's `iframe { height: … }` CSS can't squash or stretch it.
 
 ```html
-<iframe
-  src="https://vitalcity-nyc.github.io/nyc-charter-explorer/?embed=1"
-  title="Search the New York City Charter"
-  loading="lazy"
-  style="width:100%;height:600px;border:1px solid #dddddd;border-radius:10px"></iframe>
+<div style="position:relative;width:100%;height:600px;margin:1.5em 0;border:1px solid #dddddd;border-radius:10px;overflow:hidden;">
+  <iframe
+    src="https://vitalcity-nyc.github.io/nyc-charter-explorer/?embed=1"
+    title="Search the New York City Charter"
+    loading="lazy"
+    style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
+</div>
 ```
 
-- Adjust `height` to taste (≈560–680px works well). The widget fills the article width and scrolls internally; it never grows the page.
+- Adjust the wrapper `height:600px` to taste (≈560–680px works well). The widget fills the article width and scrolls internally; it never grows the page.
 - The widget shows only the title, the search box, and the results. The chapter sidebar, filters, themes, notes/share controls and footer are kept for the full view to stay lightweight in-article.
 - A **"Full screen"** button (top-right of the widget) opens the complete explorer in a new tab — chapter index, filters, light/dark themes, highlights and notes, export, and the NotebookLM link. The full view also shows a brief banner confirming it was expanded.
 
