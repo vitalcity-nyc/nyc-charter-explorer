@@ -25,7 +25,7 @@ Use the wrapper version below: the fixed height lives on the outer `<div>` and t
 
 - Adjust the wrapper `height:600px` to taste (≈560–680px works well). The widget fills the article width and scrolls internally; it never grows the page.
 - The widget shows only the title, the search box, and the results. The chapter sidebar, filters, themes, notes/share controls and footer are kept for the full view to stay lightweight in-article.
-- A **"Full screen"** button (top-right of the widget) opens the complete explorer in a new tab — chapter index, filters, light/dark themes, highlights and notes, export, and the NotebookLM link. The full view also shows a brief banner confirming it was expanded.
+- A **"Full screen"** button (top-right of the widget) opens the complete explorer in a new tab — chapter index, filters, light/dark themes, highlights and notes, export, and the Gemini Notebook link. The full view also shows a brief banner confirming it was expanded.
 
 ## What it does
 
@@ -34,7 +34,7 @@ Use the wrapper version below: the fixed height lives on the outer `<div>` and t
 - Per-section **Charter Revision Commission** tags (2018, 2019, 2024, 2025 passed proposals) with the added/amended/repealed action, independently verified against the official amendment text.
 - Personal **highlights** (select any passage) and **notes**, saved privately in the browser, with backup/restore and inclusion in the text export.
 - In-text cross-reference links, shareable section/passage links (copy, email, tweet) and a per-view text export.
-- **"Ask the Charter a question"** links to a Google NotebookLM notebook of the full Charter for plain-language Q&A.
+- **"Ask the Charter a question"** links to a Gemini Notebook of the full Charter for plain-language Q&A.
 
 ## Files
 
@@ -42,7 +42,7 @@ Use the wrapper version below: the fixed height lives on the outer `<div>` and t
 - `charter-data.js` / `charter-data.json` — the bundled Charter data with Charter Revision Commission tags.
 - `fonts/GascogneTS-Light.ttf` — Vital City display serif (used for the § numerals). Halyard loads from Adobe Typekit.
 - `data/` + `build.py` + `refresh/` — the data pipeline (see the methodology doc).
-- `NYC-Charter-for-NotebookLM.md` / `.txt` — the single-file Charter for NotebookLM.
+- `NYC-Charter-for-GeminiNotebook.md` / `.txt` — the single-file Charter for Gemini Notebook.
 
 ## Credit & source
 
